@@ -12,11 +12,22 @@ class NumberScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 156, 157, 202),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 156, 157, 202),
         title: const Text('Number Screen'),
       ),
-      body: const Center(
-        child: Text("Hier sollen die Zahlen stehen"),
+      body: Center(
+        child: StreamBuilder<int>(
+          stream: numberRepository.getNumberStream(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else {
+              return Text('Number: ${snapshot.data}');
+            }
+          },
+        ),
       ),
     );
   }
